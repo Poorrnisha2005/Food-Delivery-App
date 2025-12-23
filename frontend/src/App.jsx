@@ -302,12 +302,13 @@ function App() {
   const [showCartPage, setShowCartPage] = useState(false)
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/restaurants')
+    const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
+    fetch(`${apiBase}/api/restaurants`)
       .then(res => res.json())
       .then(data => setRestaurants(data))
       .catch(err => console.error(err))
 
-    fetch('http://localhost:3001/api/dishes')
+    fetch(`${apiBase}/api/dishes`)
       .then(res => res.json())
       .then(data => setDishes(data))
       .catch(err => console.error(err))
@@ -344,7 +345,8 @@ function App() {
 
   const placeOrder = () => {
     if (cart.length > 0) {
-      fetch('http://localhost:3001/api/orders', {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
+      fetch(`${apiBase}/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: cart })
