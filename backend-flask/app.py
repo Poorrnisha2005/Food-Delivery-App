@@ -39,4 +39,6 @@ def assign_delivery():
     return jsonify({"message": "Delivery assigned"})
 
 if __name__ == '__main__':
-    app.run(port=3002, debug=True)
+    import os
+    port = int(os.environ.get('PORT', 3002))
+    app.run(host='0.0.0.0', port=port, debug=False)

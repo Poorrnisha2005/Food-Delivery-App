@@ -49,7 +49,8 @@ app.post('/api/orders', async (req, res) => {
   try {
     const orderData = req.body;
     // Communicate with restaurant service via communication server
-    const response = await axios.post('http://localhost:3003/api/communicate/order', orderData);
+    const communicationUrl = process.env.COMMUNICATION_URL || 'http://localhost:3003';
+    const response = await axios.post(`${communicationUrl}/api/communicate/order`, orderData);
     res.json({ message: 'Order placed and communicated', orderId: Date.now(), data: response.data });
   } catch (error) {
     console.error('Error placing order:', error.message);
@@ -57,7 +58,7 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Express server running on port ${PORT}`);
 });

@@ -24,7 +24,7 @@ app.post('/api/delivery/assign', (req, res) => {
   res.json({ message: 'Delivery assigned' });
 });
 
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Flask-alternative server running on port ${PORT}`);
 });

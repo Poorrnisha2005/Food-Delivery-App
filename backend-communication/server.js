@@ -11,7 +11,8 @@ app.post('/api/communicate/order', async (req, res) => {
   try {
     const orderData = req.body;
     // Forward to Flask server
-    const response = await axios.post('http://localhost:3002/api/restaurant/orders', orderData);
+    const flaskUrl = process.env.FLASK_URL || 'http://localhost:3002';
+    const response = await axios.post(`${flaskUrl}/api/restaurant/orders`, orderData);
     res.json({ message: 'Order communicated to restaurant service', data: response.data });
   } catch (error) {
     console.error('Error communicating with Flask:', error.message);
@@ -35,7 +36,8 @@ app.post('/api/communicate/status', async (req, res) => {
 app.post('/api/communicate/delivery', async (req, res) => {
   try {
     const deliveryData = req.body;
-    const response = await axios.post('http://localhost:3002/api/delivery/assign', deliveryData);
+    const flaskUrl = process.env.FLASK_URL || 'http://localhost:3002';
+    const response = await axios.post(`${flaskUrl}/api/delivery/assign`, deliveryData);
     res.json({ message: 'Delivery assigned', data: response.data });
   } catch (error) {
     console.error('Error communicating with delivery service:', error.message);
@@ -43,7 +45,7 @@ app.post('/api/communicate/delivery', async (req, res) => {
   }
 });
 
-const PORT = 3003;
+const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
   console.log(`Communication server running on port ${PORT}`);
 });
